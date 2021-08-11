@@ -1,0 +1,20 @@
+<template>
+  <q-page class="row items-center justify-evenly"> Home </q-page>
+</template>
+
+<script lang="ts">
+import { Meta } from 'components/models';
+/* import ExampleComponent from 'components/CompositionComponent.vue'; */
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  name: 'PageIndex',
+  components: {},
+  setup() {
+    const meta = ref<Meta>({
+      totalCount: 1200,
+    });
+    return { meta };
+  },
+});
+</script>
