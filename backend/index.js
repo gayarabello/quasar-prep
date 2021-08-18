@@ -35,7 +35,7 @@ app.get('/posts', (request, response) => {
             posts.push(doc.data())
         });
         response.send(posts)
-    });
+    }).catch(() => { });
 })
 
 /* endpoint - createpost*/
@@ -47,7 +47,6 @@ app.post('/createPost', (request, response) => {
     let fileData = {};
 
     busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-        console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
         let filepath = path.join(os.tmpdir(), filename)
         file.pipe(fs.createWriteStream(filepath))
         fileData = { filepath, mimetype }
@@ -58,7 +57,6 @@ app.post('/createPost', (request, response) => {
     });
 
     busboy.on('finish', function () {
-
         bucket.upload(
             fileData.filepath,
             {
@@ -83,9 +81,9 @@ app.post('/createPost', (request, response) => {
                 location: fields.location,
                 date: parseInt(fields.date),
                 imageUrl: `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${uploadedFile.name}?alt=media&token=${uuid}`
-            }).then(response => {
+            }).then(() => {
                 response.send('Post added:' + fields.id)
-            })
+            }).catch(() => { })
         }
         //response.writeHead(303, { Connection: 'close', Location: '/' });        
         response.end();

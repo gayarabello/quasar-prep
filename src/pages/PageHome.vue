@@ -102,7 +102,12 @@ export default defineComponent({
       posts: Array,
     };
   },
+
   created() {
+    console.log('created');
+  },
+  mounted() {
+    console.log('mounted');
     this.getPosts();
   },
   methods: {
@@ -110,6 +115,7 @@ export default defineComponent({
       return date.formatDate(value, 'MMMM D h:mmA');
     },
     getPosts() {
+      console.log('getting postass');
       this.loadingPosts = true;
       this.$axios
         .get(`${process.env.API}/posts`)
@@ -124,6 +130,7 @@ export default defineComponent({
     },
   },
   setup() {
+    console.log('setterdup');
     const meta = ref<Meta>({
       totalCount: 1200,
     });

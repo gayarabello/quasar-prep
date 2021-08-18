@@ -20,6 +20,7 @@
       <q-btn
         v-if="hasCameraSupport"
         @click="captureImage()"
+        :disable="imageCaptured"
         color="grey-10"
         icon="eva-camera"
         round
@@ -43,7 +44,7 @@
         <q-input
           v-model="post.caption"
           class="col col-sm-6"
-          label="caption"
+          label="Caption *"
           dense
         />
         <q-input
@@ -67,6 +68,7 @@
       </div>
       <div class="column justify-center q-mt-lg">
         <q-btn
+          :disable="!post.caption || post.photo"
           @click="publishPost()"
           unelevated
           rounded
@@ -219,22 +221,36 @@ export default defineComponent({
       return blob;
     },
 
+    displayNotification() {
+      this.$q.notify({
+        message: 'Post Created',
+        actions: [{ label: 'Dismiss', color: 'white' }],
+      });
+    },
+
     publishPost() {
+      this.$q.loading.show();
       let formData = new FormData();
       formData.append('id', this.post.id);
       formData.append('caption', this.post.caption);
       formData.append('location', this.post.location);
       formData.append('date', String(this.post.date));
       formData.append('file', (this.post as any).photo, this.post.id + '.png');
-      console.log(this.post);
 
       this.$axios
         .post(`${process.env.API}/createPost`, formData)
         .then((response) => {
-          console.log(response);
+          this.$q.loading.hide();
+          this.$router.push('/');
+          this.displayNotification();
         })
         .catch((err) => {
-          console.log(err);
+          this.$q.dialog({
+            title: 'Error',
+            message: 'Could not create post.',
+          });
+
+          this.$q.loading.hide();
         });
     },
   },
