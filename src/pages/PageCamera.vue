@@ -191,6 +191,7 @@ export default defineComponent({
     },
 
     locationError(err: any) {
+      console.log(err);
       this.$q.dialog({
         title: 'Error',
         message: 'Could not find your location.',
