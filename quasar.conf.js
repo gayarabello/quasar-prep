@@ -9,6 +9,8 @@
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { configure } = require('quasar/wrappers');
+let API_LOCAL = 'http://localhost:3000',
+  API_PRODUCTION = 'https://quasargram-backend-prep.herokuapp.com/'
 
 module.exports = configure(function (ctx) {
   return {
@@ -54,6 +56,9 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      env: {
+        API: API_LOCAL // API_LOCAL or API_PRODUCTION
+      },
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // transpile: false,

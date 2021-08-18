@@ -70,10 +70,10 @@
           @click="publishPost()"
           unelevated
           rounded
+          label="Publish post"
           color="primary"
           icon="eva-navigation-2-outline"
         >
-          Publish
         </q-btn>
       </div>
     </div>
@@ -220,7 +220,22 @@ export default defineComponent({
     },
 
     publishPost() {
+      let formData = new FormData();
+      formData.append('id', this.post.id);
+      formData.append('caption', this.post.caption);
+      formData.append('location', this.post.location);
+      formData.append('date', String(this.post.date));
+      formData.append('file', (this.post as any).photo, this.post.id + '.png');
       console.log(this.post);
+
+      this.$axios
+        .post(`${process.env.API}/createPost`, formData)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
   mounted() {
