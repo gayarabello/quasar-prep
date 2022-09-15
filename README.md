@@ -1,6 +1,7 @@
 # Quasar Preparation (quasar-prep)
 
-Getting ready for my dream job!
+Quasargram is an exercise to practice Quasar framework with NodeJs(express).
+
 
 ## Install the dependencies
 ```bash
